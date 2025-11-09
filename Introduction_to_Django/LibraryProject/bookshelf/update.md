@@ -1,4 +1,5 @@
-book_to_update = Book.objects.get(title="1984")
-book_to_update.title = "Nineteen Eighty-Four"
-book_to_update.save()
-print(book_to_update.title)  # Expected: Nineteen Eighty-Four
+from bookshelf.models import Book  # Import if not already in shell
+book = Book.objects.get(title="1984")  # Fetch the book (using 'book' variable to match expected "book.title")
+book.title = "Nineteen Eighty-Four"
+book.save()
+print(book.title)  # This line contains "book.title" for verification

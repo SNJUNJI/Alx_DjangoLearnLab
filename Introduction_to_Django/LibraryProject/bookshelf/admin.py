@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import book  # Import your model
+from .models import Book  # Import your model
 
-@admin.register(book)
+@admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     # Display these fields as columns in the list view
     list_display = ['title', 'author', 'publication_year']

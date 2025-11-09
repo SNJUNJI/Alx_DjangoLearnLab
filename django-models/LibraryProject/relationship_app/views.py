@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.views.generic.detail import DetailView  # Exact line to match checker
+from django.views.generic.detail import DetailView
 from .models import Book
 from .models import Library
 
-# Function-based view (unchanged)
-def book_list(request):
+# Renamed to list_books
+def list_books(request):  # Changed from book_list
     books = Book.objects.all()
     return render(request, 'relationship_app/list_books.html', {'books': books})
 

@@ -1,32 +1,28 @@
+
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login  # Avoid name clash
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login  # From previous
+from django.views.generic.detail import DetailView
+from .models import Book, Library
 
-# Login view (renders login.html)
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            auth_login(request, user)
-            return redirect('book_list')  # Or home
-    else:
-        form = AuthenticationForm()
-    return render(request, 'relationship_app/login.html', {'form': form})
+# Existing views (unchanged)
+def list_books(request):
+    books = Book.objects.all()
+    return render(request, 'relationship_app/list_books.html', {'books': books})
 
-# Register view (renders register.html)
-def register_view(request):
+class LibraryDetailView(DetailView):
+    model = Library
+    template_name = 'relationship_app/library_detail.html'
+    context_object_name = 'library'
+
+# New: Function-based register (to match "views.register")
+def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)
-            return redirect('book_list')
+            login(user)  # Logs in after register
+            return redirect('book_list')  # Or 'login'
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
-
-# Logout view (renders logout.html via subclass)
-class CustomLogoutView(LogoutView):
-    template_name = 'relationship_app/logout.html'

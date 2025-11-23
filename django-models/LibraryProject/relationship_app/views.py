@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from relationship_app.models import Book
-from django.views.generic import ListView
+from django.views.generic import DetailView
 from .models import Library
 
 # Create your views here.
@@ -8,7 +8,7 @@ def list_books(request, *args, **kwargs):
     books=Book.objects.all()
     return render(request, "relationship_app/list_books.html",{"books":books})
 
-class all_books_in_library(ListView):
+class all_books_in_library(DetailView):
     library=Library.objects.get(name="Library name")
     all_books=library.objects.all()
     for i in all_books:

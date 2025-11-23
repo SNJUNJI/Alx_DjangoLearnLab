@@ -3,5 +3,5 @@ from relationship_app.models import Book
 
 # Create your views here.
 def list_books(request, *args, **kwargs):
-    books=Book.objects.get()
+    books=Book.objects.all()
     return render(request, "list_books.html",{books})
